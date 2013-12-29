@@ -28,11 +28,9 @@ var exec = require('cordova/exec');
 module.exports = {
 
     /**
-     * Causes the device to vibrate.
-     *
-     * @param {Integer} mills       The number of milliseconds to vibrate for.
+     * Returns a list of running apps.
      */
-    vibrate: function(mills) {
-        exec(null, null, "Vibration", "vibrate", [mills]);
+    getRunningApps: function() {
+        exec(null, null, "RunningApps", "getRunningApps");
     },
 };
