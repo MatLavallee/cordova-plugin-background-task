@@ -21,9 +21,11 @@
 
 @implementation CDVRunningApps
 
-- (void)vibrate:(CDVInvokedUrlCommand*)command
+- (void)getRunningApps:(CDVInvokedUrlCommand*)command
 {
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    NSArray *runningApps = @[@"Google Chrome", @"Apple Safari", @"Facebook", @"Angry Birds", @"Twitter"];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:runningApps];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 @end

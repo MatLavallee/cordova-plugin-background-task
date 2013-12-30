@@ -24,6 +24,6 @@
 
 @interface CDVRunningApps : CDVPlugin {}
 
-- (void)vibrate:(CDVInvokedUrlCommand*)command;
+- (void)getRunningApps:(CDVInvokedUrlCommand*)command;
 
 @end
