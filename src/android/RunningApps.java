@@ -16,7 +16,7 @@
        specific language governing permissions and limitations
        under the License.
 */
-package org.apache.cordova.vibration;
+package org.apache.cordova.runningapps;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -26,14 +26,14 @@ import android.content.Context;
 import android.os.Vibrator;
 
 /**
- * This class provides access to vibration on the device.
+ * This class provides access to running applications on the device.
  */
-public class Vibration extends CordovaPlugin {
+public class RunningApps extends CordovaPlugin {
 
     /**
      * Constructor.
      */
-    public Vibration() {
+    public RunningApps() {
     }
 
     /**

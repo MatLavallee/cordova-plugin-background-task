@@ -22,7 +22,7 @@
 #import <AudioToolbox/AudioServices.h>
 #import <Cordova/CDVPlugin.h>
 
-@interface CDVVibration : CDVPlugin {}
+@interface CDVRunningApps : CDVPlugin {}
 
 - (void)vibrate:(CDVInvokedUrlCommand*)command;
 

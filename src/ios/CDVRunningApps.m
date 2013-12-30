@@ -17,9 +17,9 @@
  under the License.
  */
 
-#import "CDVVibration.h"
+#import "CDVRunningApps.h"
 
-@implementation CDVVibration
+@implementation CDVRunningApps
 
 - (void)vibrate:(CDVInvokedUrlCommand*)command
 {
