@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="org.apache.cordova.vibration"
+    id="org.apache.cordova.runningapps"
     version="0.0.1">
 
     <name>Running Apps</name>
