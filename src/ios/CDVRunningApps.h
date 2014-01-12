@@ -19,8 +19,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <AudioToolbox/AudioServices.h>
 #import <Cordova/CDVPlugin.h>
+#import <sys/sysctl.h>
 
 @interface CDVRunningApps : CDVPlugin {}
 
