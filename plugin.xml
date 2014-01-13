@@ -2,43 +2,28 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="org.apache.cordova.runningapps"
+    id="backgrountask"
     version="0.0.1">
 
-    <name>Running Apps</name>
-    <description>Cordova Running Apps Plugin</description>
+    <name>Background Task</name>
+    <description>Cordova Background Task Plugin</description>
     <license>Apache 2.0</license>
-    <keywords>cordova,running,apps</keywords>
-    <repo>https://github.com/mllm/cordova-plugin-running-apps</repo>
-    <issue>https://github.com/mllm/cordova-plugin-running-apps/issues</issue>
+    <keywords>cordova,backgroun,task</keywords>
+    <repo>https://github.com/mllm/cordova-plugin-background-task</repo>
+    <issue>https://github.com/mllm/cordova-plugin-backgroun-task/issues</issue>
 
-    <js-module src="www/RunningApps.js" name="RunningApps">
-        <clobbers target="RunningApps" />
+    <js-module src="www/BackgrounTask.js" name="BackgroundTask">
+        <clobbers target="BackgroundTask" />
     </js-module>
-
-    <!-- android -->
-    <platform name="android">
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="RunningApps">
-                <param name="android-package" value="org.apache.cordova.runningapps.RunningApps"/>
-            </feature>
-        </config-file>
-
-        <source-file src="src/android/RunningApps.java" target-dir="src/org/apache/cordova/runningapps" />
-
-        <config-file target="AndroidManifest.xml" parent="/manifest">
-            <uses-permission android:name="android.permission.GET_TASKS"/>
-        </config-file>
-    </platform>
 
     <!-- ios -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
-            <feature name="RunningApps">
-                <param name="ios-package" value="CDVRunningApps"/>
+            <feature name="BackgroundTask">
+                <param name="ios-package" value="CDVBackgroundTask"/>
             </feature>
         </config-file>
-        <header-file src="src/ios/CDVRunningApps.h" />
-	      <source-file src="src/ios/CDVRunningApps.m" />
+        <header-file src="src/ios/CDVBackgroundTask.h" />
+	      <source-file src="src/ios/CDVBackgroundTask.m" />
     </platform>
 </plugin>

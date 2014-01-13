@@ -20,5 +20,5 @@
 -->
 # Release Notes
 
-### 0.0.1 (Dec 29, 2013)
-* Initial Android and iOS support
+### 0.0.1 (Jan 13, 2014)
+* Initial iOS support
