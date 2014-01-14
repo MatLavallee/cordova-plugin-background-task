@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="backgrountask"
+    id="backgroundtask"
     version="0.0.1">
 
     <name>Background Task</name>
@@ -12,7 +12,7 @@
     <repo>https://github.com/mllm/cordova-plugin-background-task</repo>
     <issue>https://github.com/mllm/cordova-plugin-backgroun-task/issues</issue>
 
-    <js-module src="www/BackgrounTask.js" name="BackgroundTask">
+    <js-module src="www/BackgroundTask.js" name="BackgroundTask">
         <clobbers target="BackgroundTask" />
     </js-module>
 

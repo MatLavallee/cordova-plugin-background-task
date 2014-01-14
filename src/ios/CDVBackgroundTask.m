@@ -1,89 +1,63 @@
-/*
- Licensed to the Apache Software Foundation (ASF) under one
- or more contributor license agreements.  See the NOTICE file
- distributed with this work for additional information
- regarding copyright ownership.  The ASF licenses this file
- to you under the Apache License, Version 2.0 (the
- "License"); you may not use this file except in compliance
- with the License.  You may obtain a copy of the License at
+#import "CDVBackgroundTask.h"
 
- http://www.apache.org/licenses/LICENSE-2.0
+@implementation CDVBackgroundTaskData
 
- Unless required by applicable law or agreed to in writing,
- software distributed under the License is distributed on an
- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- KIND, either express or implied.  See the License for the
- specific language governing permissions and limitations
- under the License.
- */
+@synthesize backgroundTaskId = _backgroundTaskId, callbackId = _callbackId;
 
-#import "CDVRunningApps.h"
-
-@implementation CDVRunningApps
-
-- (void)getRunningApps:(CDVInvokedUrlCommand*)command
+- (CDVBackgroundTaskData*)initWithBackgroundTaskId:(UIBackgroundTaskIdentifier)backgroundTaskId
+                                    withCallbackId:(NSString*)callbackId
 {
-  NSArray *runningApps = [self getRunningAppsList];
-  CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:runningApps];
+  if (self = [super init]) {
+    _backgroundTaskId = backgroundTaskId;
+    _callbackId = callbackId;
+  }
+  return self;
+}
+
+@end
+
+
+@implementation CDVBackgroundTask
+
+@synthesize backgroundTasks = _backgroundTasks;
+
+- (CDVPlugin*)initWithWebView:(UIWebView *)theWebView
+{
+  self = (CDVBackgroundTask*)[super initWithWebView:(UIWebView*)theWebView];
+  if(self) {
+    self.backgroundTasks = [NSMutableDictionary dictionaryWithCapacity:1];
+  }
+  return self;
+}
+
+- (void)startInBackground:(CDVInvokedUrlCommand*)command
+{
+  NSString* callbackId = command.callbackId;
+  NSString* taskId = [command.arguments objectAtIndex:0];
+
+  UIBackgroundTaskIdentifier backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:taskId expirationHandler:^{
+    NSLog(@"Background Task %@ is expiring.", taskId);
+  }];
+
+  CDVBackgroundTaskData* data = [[CDVBackgroundTaskData alloc] initWithBackgroundTaskId:backgroundTaskId
+                                                                         withCallbackId:callbackId];
+  [_backgroundTasks setObject:data forKey:taskId];
+
+  CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-// Inspired by: http://forrst.com/posts/UIDevice_Category_For_Processes-h1H
-- (NSArray*)getRunningAppsList
+- (void)stopInBackground:(CDVInvokedUrlCommand*)command
 {
-  int mib[4] = {CTL_KERN, KERN_PROC, KERN_PROC_ALL, 0};
-  size_t miblen = 4;
+  NSString* taskId = [command.arguments objectAtIndex:0];
 
-  size_t size;
-  int st = sysctl(mib, miblen, NULL, &size, NULL, 0);
+  CDVBackgroundTaskData *data = [_backgroundTasks valueForKey:taskId];
+  [[UIApplication sharedApplication] endBackgroundTask:data.backgroundTaskId];
 
-  struct kinfo_proc * process = NULL;
-  struct kinfo_proc * newprocess = NULL;
+  [_backgroundTasks removeObjectForKey:taskId];
 
-  do {
-
-    size += size / 10;
-    newprocess = realloc(process, size);
-
-    if (!newprocess){
-
-      if (process){
-        free(process);
-      }
-
-      return nil;
-    }
-
-    process = newprocess;
-    st = sysctl(mib, miblen, process, &size, NULL, 0);
-
-  } while (st == -1 && errno == ENOMEM);
-
-  if (st == 0){
-
-    if (size % sizeof(struct kinfo_proc) == 0){
-      int nprocess = size / sizeof(struct kinfo_proc);
-
-      if (nprocess){
-
-        NSMutableArray * array = [[NSMutableArray alloc] init];
-
-        for (int i = nprocess - 1; i >= 0; i--){
-          // A process is a running app when its p_flag is 18432
-          // Source: http://stackoverflow.com/a/15976566/351398
-          bool isProcessRunning = process[i].kp_proc.p_flag == 18432;
-          if(!isProcessRunning) continue;
-
-          NSString * processName = [[NSString alloc] initWithFormat:@"%s", process[i].kp_proc.p_comm];
-          [array addObject:processName];
-        }
-
-        free(process);
-        return array;
-      }
-    }
-  }
-
-  return nil;
+  CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+  [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
+
 @end
